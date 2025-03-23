@@ -1,0 +1,51 @@
+'use client'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+
+export default function Banner() {
+    const covers = ['/img/cover1.jpg', '/img/cover2.jpg', '/img/cover3.jpg'];
+    const [index, setIndex] = useState(0);
+    const router = useRouter();
+
+    const { data: session } = useSession();
+    console.log(session?.user.token);
+
+    return (
+        <div 
+            className="relative w-screen h-[80vh] overflow-hidden cursor-pointer" 
+            onClick={() => setIndex(index + 1)}
+        >
+            <Image 
+                src={covers[index % 3]}  
+                alt="cover" 
+                fill={true}
+                priority
+                className="object-cover"
+            />
+            <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-20">
+                <h1 className="text-5xl font-medium text-white drop-shadow-lg">
+                    Your Travel Partner
+                </h1>
+                <h3 className="text-2xl font-serif text-white mt-4 drop-shadow-md">
+                    Explore Your World with Us
+                </h3>
+            </div>
+            {session && (
+                <div className="absolute top-5 right-10 font-semibold text-cyan-800 text-xl z-30">
+                    Hello {session.user?.name}
+                </div>
+            )}
+            <button 
+                className="absolute bottom-5 right-5 bg-white text-cyan-600 border border-cyan-600 
+                font-semibold py-2 px-4 rounded z-30 
+                hover:bg-cyan-600 hover:text-white hover:border-transparent transition duration-300"
+                onClick={(e) => { e.stopPropagation(); router.push('/hotels') }}
+            >
+                Select Hotel NOW
+            </button>
+        </div>
+    );
+}
+    
