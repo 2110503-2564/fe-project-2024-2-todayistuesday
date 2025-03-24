@@ -24,6 +24,7 @@ export interface BookingItem {
     checkOut: string
     numOfDays: number
     user : string
+    bookingId?: string;
 }
 
 
