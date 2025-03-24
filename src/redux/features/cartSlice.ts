@@ -11,7 +11,7 @@ export const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        addReservaition: (state, action:PayloadAction<BookingItem>)=>{
+        addReservation: (state, action:PayloadAction<BookingItem>)=>{
             state.carItems.push(action.payload)
         },
         removeReservation: (state, action:PayloadAction<BookingItem>)=>{
@@ -25,5 +25,5 @@ export const cartSlice = createSlice({
     }
 })
 
-export const {addReservaition, removeReservation } = cartSlice.actions
+export const {addReservation, removeReservation } = cartSlice.actions
 export default cartSlice.reducer

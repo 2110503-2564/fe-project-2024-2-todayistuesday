@@ -14,7 +14,8 @@ export interface RegisterFormProps {
     error: string | null;
     success: boolean;
 }
-export interface BookingItem {    
+export interface BookingItem {
+    _id : string
     nameLastname: string
     tel: string
     hotel : string
@@ -23,6 +24,7 @@ export interface BookingItem {
     checkOut: string
     numOfDays: number
     user : string
+    bookingId?: string;
 }
 
 export interface ReservationItem {

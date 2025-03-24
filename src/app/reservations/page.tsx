@@ -7,7 +7,7 @@ import dayjs, { Dayjs } from "dayjs";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { BookingItem } from "../../../interfaces";
-import { addReservaition } from "@/redux/features/cartSlice";
+import { addReservation } from "@/redux/features/cartSlice";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import addBooking from "@/libs/addBooking";
@@ -37,54 +37,56 @@ export default function Reservations() {
         }
     }, [session]);
 
-    const makeReservation = async (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-    
+    const validateReservationData = () => {
+
+        if (!cid) {
+        alert("Hotel ID is missing");
+        return;
+    }
+        // Comprehensive validation
         if (!checkIn || !checkOut || !nameLastname || !tel || !cid) {
             alert("Please fill in all required fields.");
-            return;
+            return false;
         }
     
         const numOfDays = dayjs(checkOut).diff(dayjs(checkIn), "day");
     
         if (numOfDays > 3) {
             alert("You cannot book a reservation for more than 3 days.");
-            return;
+            return false;
         }
         
         if (numOfDays <= 0) {
             alert("Check-out date must be after check-in date.");
-            return;
+            return false;
         }
     
         if (!isAuthenticated || !session) {
             alert("You need to log in before making a reservation.");
             router.push('/api/auth/signin');
+            return false;
+        }
+
+        return true;
+    };
+
+    const makeReservation = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+    
+        // Validate reservation data
+        if (!validateReservationData()) return;
+
+        if (!cid) {
+            alert("Hotel ID is missing");
             return;
         }
-
-        if (nameHotel && cid && nameLastname && checkIn && checkOut) {
-            const item: BookingItem = {
-                nameLastname: nameLastname,
-                tel: tel,
-                hotel: nameHotel,
-                hotelId: cid,
-                checkIn: dayjs(checkIn).format("YYYY/MM/DD"),
-                checkOut: dayjs(checkOut).format("YYYY/MM/DD"),
-                numOfDays: numOfDays,
-                user: session.user._id
-            };
-
-            dispatch(addReservaition(item));
-            alert("Reservation successful!");
-        } else {
-            alert("Please fill in all required fields.");
-        }
-        
+    
+        // Prepare booking data
+        const numOfDays = dayjs(checkOut).diff(dayjs(checkIn), "day");
         setBookingLoading(true);
     
         const bookingData = {
-            userId: session.user._id,
+            userId: session?.user?._id,
             nameLastname: nameLastname,
             tel: tel,
             checkIn: dayjs(checkIn).format("YYYY-MM-DD"),
@@ -92,47 +94,58 @@ export default function Reservations() {
             numOfDays: numOfDays
         };
     
-        console.log("Booking Data:", bookingData);
-    
         try {
-            // Add this to your fetch request
-            addBooking(cid , bookingData, session.user.token)
-            // const response = await fetch(`http://localhost:5000/api/v1/hotels/${cid}/bookings`, {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Authorization': `Bearer ${session.user.token}` // Add this line
-            //     },
-            //     body: JSON.stringify(bookingData)
-            // });
+            // Add booking and get the response
+            const createdBooking = await addBooking(cid, bookingData, session?.user?.token || '');
+            console.log('Full Booking Response:', createdBooking); // Log the full response
 
-    
-            // if (!response.ok) {
-            //     const errorText = await response.text();
-            //     throw new Error(`API Error: ${errorText}`);
-            // }
-    
-            // const data = await response.json();
-            // console.log("API Response:", data);
+            // If the ID is nested, try accessing it differently
+            const bookingId = createdBooking._id || 
+                            createdBooking.id || 
+                            createdBooking.booking?._id || 
+                            null;   
+            
+            // Create booking item with returned _id
+            const item: BookingItem = {
+                _id: createdBooking.data._id, // Use the ID from the API response
+                nameLastname: nameLastname,
+                tel: tel,
+                hotel: nameHotel || '',
+                hotelId: cid || '',
+                checkIn: dayjs(checkIn).format("YYYY/MM/DD"),
+                checkOut: dayjs(checkOut).format("YYYY/MM/DD"),
+                numOfDays: numOfDays,
+                user: session?.user?._id || ''
+            };
+
+            // Dispatch to Redux
+            dispatch(addReservation(item));
+            console.log(createdBooking.data._id);
+
+            // Show success message and navigate
             alert("Reservation successful!");
             router.push('/cart');
         } catch (error) {
-            console.error("API Error:", error);
-            alert("Reservation added to cart, but there was an issue with the API connection.");
+            console.error("Reservation Error:", error);
+            alert("Failed to make reservation. Please try again.");
         } finally {
             setBookingLoading(false);
         }
     };
 
+    // Render method remains largely the same
     return (
         <main className="w-[100%] flex flex-col items-center space-y-4">
             <div className="text-3xl font-medium">New Reservation</div>
             <div className="text-xl font-medium">Hotel : {nameHotel}</div>
+            
+            {/* Authentication status indicators */}
             {status === "loading" && (
                 <div className="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-4">
                     <p>Checking authentication status...</p>
                 </div>
             )}
+            
             {status === "unauthenticated" && (
                 <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
                     <p>You need to be logged in to complete a reservation.</p>
@@ -144,11 +157,14 @@ export default function Reservations() {
                     </button>
                 </div>
             )}
+            
             {isAuthenticated && (
                 <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
                     <p>You are logged in as {session?.user?.name || "a user"}.</p>
                 </div>
             )}
+            
+            {/* Reservation Form */}
             <form className="w-full max-w-md">
                 <TextField
                     required

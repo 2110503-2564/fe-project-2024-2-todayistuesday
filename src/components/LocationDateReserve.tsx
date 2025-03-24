@@ -1,35 +1,44 @@
-'use client'
-import { useState } from "react";
-import { DatePicker } from "@mui/x-date-pickers";
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Select, MenuItem } from "@mui/material";
-import { Dayjs } from "dayjs";
+// components/LocationDateReserve.tsx
+"use client";
+import { useState } from 'react';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs, { Dayjs } from 'dayjs';
 
-export default function LocationDateReserve({onDateChange} 
-    : {onDateChange:Function}) {
+interface LocationDateReserveProps {
+  onDateChange: (value: Dayjs) => void;
+  initialDate?: Dayjs | null;
+}
 
-    const [reserveDate, setReserveDate] = useState<Dayjs | null>(null)
-    const [Location, setLocation] = useState('BKK')
+export default function LocationDateReserve({ 
+  onDateChange, 
+  initialDate = null 
+}: LocationDateReserveProps) {
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(initialDate);
 
+  const handleDateChange = (newValue: Dayjs | null) => {
+    if (newValue) {
+      setSelectedDate(newValue);
+      onDateChange(newValue);
+    }
+  };
 
-    return (
-        <div className="bg-slate-100 rounded-lg space-x-5 space-y-2
-        w-fit px-10 py-5 flex flex-row justify-center">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker className="bg-white"
-                value={reserveDate} 
-                onChange={(value)=>{setReserveDate(value); onDateChange(value)}}
-                />
-            </LocalizationProvider>
-
-            {/* <Select variant="standard" name="Location" value={Location}
-            onChange={(e)=>{setLocation(e.target.value); onLocationChange(e.target.value)}}
-            id="Location" className="h-[2em] w-[200px]" >
-                <MenuItem value="BKK">Bangkok</MenuItem>
-                <MenuItem value="CNX">Chiang Mai</MenuItem>
-                <MenuItem value="HKT">Phuket</MenuItem>
-            </Select> */}
-        </div>
-    );
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+        value={selectedDate}
+        onChange={handleDateChange}
+        slotProps={{ 
+          textField: { 
+            variant: 'standard', 
+            fullWidth: true 
+          } 
+        }}
+        // Optional: Add min and max date constraints
+        minDate={dayjs()} // Prevent selecting past dates
+        maxDate={dayjs().add(1, 'year')} // Limit to 1 year in the future
+      />
+    </LocalizationProvider>
+  );
 }
