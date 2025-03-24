@@ -37,14 +37,6 @@ export default function Banner() {
                     Hello {session.user?.name}
                 </div>
             )}
-            <button 
-                className="absolute bottom-5 right-5 bg-white text-cyan-600 border border-cyan-600 
-                font-semibold py-2 px-4 rounded z-30 
-                hover:bg-cyan-600 hover:text-white hover:border-transparent transition duration-300"
-                onClick={(e) => { e.stopPropagation(); router.push('/hotels') }}
-            >
-                Select Hotel NOW
-            </button>
         </div>
     );
 }
