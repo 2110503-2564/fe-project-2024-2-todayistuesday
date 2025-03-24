@@ -22,8 +22,15 @@ export const cartSlice = createSlice({
             })
             state.carItems = remainItems
         },
+        updateBookingState: (state, action: PayloadAction<BookingItem>) => {
+            const index = state.carItems.findIndex(b => b._id === action.payload._id 
+            );
+            if (index !== -1) {
+                state.carItems[index] = action.payload;
+            }
+        },
     }
 })
 
-export const {addReservation, removeReservation } = cartSlice.actions
+export const {addReservation, removeReservation ,updateBookingState } = cartSlice.actions
 export default cartSlice.reducer

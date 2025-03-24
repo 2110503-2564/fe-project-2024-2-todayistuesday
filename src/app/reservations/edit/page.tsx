@@ -8,7 +8,9 @@ import { updateBooking } from "@/libs/updateBooking";
 import { getBooking } from "@/libs/getBooking";
 import { BookingItem } from "../../../../interfaces";
 
+
 export default function EditBookingPage() {
+    
     const router = useRouter();
     const searchParams = useSearchParams();
     const bookingId = searchParams.get('id');
@@ -26,6 +28,9 @@ export default function EditBookingPage() {
     const [tel, setTel] = useState<string>("");
     const [bookingLoading, setBookingLoading] = useState<boolean>(false);
     const [pageLoading, setPageLoading] = useState<boolean>(true);
+
+
+    
 
     // Fetch booking data
     useEffect(() => {
@@ -97,6 +102,11 @@ export default function EditBookingPage() {
         // Prepare updated booking data
         const numOfDays = dayjs(checkOut).diff(dayjs(checkIn), "day");
         setBookingLoading(true);
+        console.log(nameLastname);
+        console.log();
+        console.log();
+        console.log();
+        console.log();
     
         const updatedBookingData = {
             nameLastname: nameLastname,
@@ -105,6 +115,7 @@ export default function EditBookingPage() {
             checkOut: dayjs(checkOut).format("YYYY-MM-DD"),
             numOfDays: numOfDays
         };
+        
     
         try {
             // Update booking
@@ -114,6 +125,7 @@ export default function EditBookingPage() {
                     session?.user?.token || '', 
                     updatedBookingData
                 );
+                
 
                 // Show success message and navigate
                 alert("Booking updated successfully!");
@@ -148,7 +160,7 @@ export default function EditBookingPage() {
     return (
         <main className="w-[100%] flex flex-col items-center space-y-4">
             <div className="text-3xl font-medium">Update Reservation</div>
-            <div className="text-xl font-medium">Hotel: {booking.hotel}</div>
+            <div className="text-xl font-medium">Hotel: {booking.hotel.name}</div>
             
             {/* Authentication status indicators */}
             {status === "loading" && (

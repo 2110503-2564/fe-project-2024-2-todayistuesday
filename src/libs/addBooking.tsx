@@ -7,8 +7,7 @@ export default async function addBooking(
   bookingData: object, 
   sessionToken: string // Add session token as a parameter
 ) {
-    // Simulate a delay (optional, for testing purposes)
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    
 
     // Make the POST request to the API
     try {

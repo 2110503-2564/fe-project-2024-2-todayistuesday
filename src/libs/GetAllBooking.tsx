@@ -3,8 +3,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 
 export default async function getAllBookings() {
-    // Simulate a delay (optional, for testing purposes)
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+
     const session = await getServerSession(authOptions);
 
     // Make the POST request to the API

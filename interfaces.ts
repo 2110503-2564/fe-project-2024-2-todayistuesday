@@ -19,13 +19,14 @@ export interface BookingItem {
     nameLastname: string
     tel: string
     hotel : Hotel
-    hotelId : string
     checkIn: string
     checkOut: string
     numOfDays: number
     user : string
-    bookingId?: string;
 }
+
+
+
 
 
 export interface eachItemsBooking{

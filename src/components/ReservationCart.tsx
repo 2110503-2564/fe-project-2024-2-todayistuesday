@@ -56,8 +56,9 @@ export default function ReservationCart() {
     };
 
     const handleEditReservation = (bookItem: BookingItem) => {
+        const hotelData = JSON.stringify(bookItem.hotel);
         // Navigate to edit page with booking details
-        router.push(`/reservations/edit/${bookItem._id}?hotel=${encodeURIComponent(bookItem.hotel)}`);
+        router.push(`/reservations/edit?id=${bookItem._id}?hotel=${encodeURIComponent(hotelData)}`);
     };
 
     // Filter bookings to show only the current user's bookings
@@ -83,7 +84,7 @@ export default function ReservationCart() {
                         className="bg-slate-200 rounded px-5 mx-5 py-2 my-3"
                         key={bookItem._id}
                     >
-                        <div className="text-xl font-bold underline">{bookItem.hotel}</div>
+                        <div className="text-xl font-bold underline">{bookItem.hotel.name}</div>
                         <div className="text-sm">Name of the person booking: {bookItem.nameLastname}</div>
                         <div className="text-sm">Tel: {bookItem.tel}</div>
                         <div className="text-sm">Check-In: {bookItem.checkIn}</div>
