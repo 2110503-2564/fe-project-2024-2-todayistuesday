@@ -22,6 +22,7 @@ export interface BookingItem {
     checkIn: string
     checkOut: string
     numOfDays: number
+    user : string
 }
 
 export interface ReservationItem {

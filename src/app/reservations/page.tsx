@@ -10,6 +10,7 @@ import { BookingItem } from "../../../interfaces";
 import { addReservaition } from "@/redux/features/cartSlice";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import addBooking from "@/libs/addBooking";
 
 export default function Reservations() {
     const router = useRouter();
@@ -71,6 +72,7 @@ export default function Reservations() {
                 checkIn: dayjs(checkIn).format("YYYY/MM/DD"),
                 checkOut: dayjs(checkOut).format("YYYY/MM/DD"),
                 numOfDays: numOfDays,
+                user: session.user._id
             };
 
             dispatch(addReservaition(item));
@@ -94,23 +96,24 @@ export default function Reservations() {
     
         try {
             // Add this to your fetch request
-            const response = await fetch(`http://localhost:5000/api/v1/hotels/${cid}/bookings`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${session.user.token}` // Add this line
-                },
-                body: JSON.stringify(bookingData)
-            });
+            addBooking(cid , bookingData, session.user.token)
+            // const response = await fetch(`http://localhost:5000/api/v1/hotels/${cid}/bookings`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Authorization': `Bearer ${session.user.token}` // Add this line
+            //     },
+            //     body: JSON.stringify(bookingData)
+            // });
 
     
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`API Error: ${errorText}`);
-            }
+            // if (!response.ok) {
+            //     const errorText = await response.text();
+            //     throw new Error(`API Error: ${errorText}`);
+            // }
     
-            const data = await response.json();
-            console.log("API Response:", data);
+            // const data = await response.json();
+            // console.log("API Response:", data);
             alert("Reservation successful!");
             router.push('/cart');
         } catch (error) {

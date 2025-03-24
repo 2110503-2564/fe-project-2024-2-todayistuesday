@@ -1,42 +1,35 @@
 import { error } from "console";
 import { BookingItem } from "../../interfaces";
 import { Dayjs } from "dayjs";
-import { useSession } from "next-auth/react";
-
 
 export default async function addBooking(
-    hotelId: string,
-    nameLastname: string,
-    tel: string,
-    checkIn: Dayjs,
-    checkOut: Dayjs,
+  cid: string, 
+  bookingData: object, 
+  sessionToken: string // Add session token as a parameter
 ) {
     // Simulate a delay (optional, for testing purposes)
     await new Promise((resolve) => setTimeout(resolve, 5000));
-    const { data: session, status } = useSession();
+
     // Make the POST request to the API
-    if (session) {
-        const response = await fetch(`http://localhost:5000/api/v1/hotels/${hotelId}/bookings`, {
-            method: "POST",
+    try {
+        const response = await fetch(`http://localhost:5000/api/v1/hotels/${cid}/bookings`, {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
-                'Authorization': `Bearer ${session.user.token}` // Add this line
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${sessionToken}` // Use passed token
             },
-            body: JSON.stringify({
-                nameLastname,
-                tel,
-                checkIn,
-                checkOut,
-            }),
+            body: JSON.stringify(bookingData)
         });
-        // Check if the request was successful
+
         if (!response.ok) {
-            throw new Error("Failed to add booking");
+            const errorText = await response.text();
+            throw new Error(`API Error: ${errorText}`);
         }
 
-        // Parse and return the response JSON
-        return await response.json();
+        const data = await response.json();
+        return data; // Return the booking data
+    } catch (err) {
+        console.error('Booking creation failed:', err);
+        throw err; // Re-throw the error for caller to handle
     }
-    
-    
 }
