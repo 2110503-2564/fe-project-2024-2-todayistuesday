@@ -7,8 +7,8 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { Link as MUILink } from '@mui/material';  // Rename MUI Link to avoid conflict
 
 export default async function TopMenu() {
-    const session = await getServerSession(authOptions)
-
+    const session = await getServerSession(authOptions);
+    
     return (
         <div className={styles.menucontainer}>
             <Link href="/">
@@ -20,7 +20,11 @@ export default async function TopMenu() {
                     sizes='100vh'
                 />
             </Link>
-            <TopMenuItem title='Select Hotel' pageRef='/hotels' />
+            {
+                session?.user.role==="admin"?
+                (<TopMenuItem title='Check Bookings' pageRef='/AllBookings' />) :
+                (<TopMenuItem title='Select Hotels' pageRef='/hotels' />)
+            }
             <TopMenuItem title='About' pageRef='/about' />
             <div className='flex flex-row absolute right-0 h-full'>
                 <TopMenuItem title='Cart' pageRef='/cart' />

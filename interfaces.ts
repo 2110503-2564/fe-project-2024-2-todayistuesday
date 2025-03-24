@@ -14,16 +14,25 @@ export interface RegisterFormProps {
     error: string | null;
     success: boolean;
 }
-export interface BookingItem {    
+export interface BookingItem {
+    _id : string
     nameLastname: string
     tel: string
-    hotel : string
+    hotel : Hotel
     hotelId : string
     checkIn: string
     checkOut: string
     numOfDays: number
     user : string
 }
+
+
+export interface eachItemsBooking{
+    success : boolean
+    count :   number
+    data : BookingItem[]
+}
+
 
 export interface ReservationItem {
     carId: string
@@ -33,4 +42,21 @@ export interface ReservationItem {
     pickupLocation: string
     returnDate: string
     returnLocation: string
+}
+
+export interface User {
+    _id : string
+    name : string
+    email : string
+    role : string
+    password:string
+    tel : string
+    createdAt : string
+}
+
+export interface Hotel {
+    _id : string
+    name : string
+    province : string
+    tel : string
 }
