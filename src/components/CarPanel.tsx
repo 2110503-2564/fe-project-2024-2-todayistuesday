@@ -3,11 +3,12 @@ import ProductCard from "./ProductCard";
 import { useReducer,useState } from "react";
 import Link from "next/link";
 import { useRef,useEffect } from "react";
+import { XXX , TypeHotel } from "../../interfaces";
 import getCars from "@/libs/getCars";
 
 export default function CarPanel() {
 
-    const [carResponse , setCarResponse] = useState(null)
+    const [carResponse , setCarResponse] = useState<XXX|null>(null)
 
     useEffect (() => {
         const fetchData = async ()=> {
@@ -55,9 +56,9 @@ export default function CarPanel() {
                 flexDirection:"row", flexWrap : "wrap" ,
                 justifyContent:"space-around", alignContent:"space-around",padding:"10px"}}>
                     {
-                        carResponse.data.map( (carItem:Object)=>(
-                            <Link href={`/car/${carItem.id}`} className="w-1/5">
-                                <ProductCard carName={carItem.model} imgSrc={carItem.picture}
+                        carResponse.data.map( (carItem:TypeHotel)=>(
+                            <Link href={`/car/${carItem._id}`} className="w-1/5">
+                                <ProductCard carName={carItem.name} imgSrc={carItem.picture}
                                     onCompare={ (car:string)=>dispatchCompare({type:'add',carName:car})} 
                                 />
                             </Link>

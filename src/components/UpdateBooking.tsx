@@ -98,7 +98,7 @@ export default function UpdateBooking({ booking }: { booking: BookingItem }) {
     return (
         <main className="w-[100%] flex flex-col items-center space-y-4">
             <div className="text-3xl font-medium">Update Reservation</div>
-            <div className="text-xl font-medium">Hotel: {booking.hotel}</div>
+            <div className="text-xl font-medium">Hotel: {booking.hotel.name}</div>
             
             {/* Authentication status indicators */}
             {status === "loading" && (

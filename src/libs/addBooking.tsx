@@ -11,7 +11,7 @@ export default async function addBooking(
 
     // Make the POST request to the API
     try {
-        const response = await fetch(`http://localhost:5000/api/v1/hotels/${cid}/bookings`, {
+        const response = await fetch(`${process.env.BACKEND_URL}/api/v1/hotels/${cid}/bookings`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

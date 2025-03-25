@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';  // Import Link from next/link
 import TopMenuItem from './TopMenuItem';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import { Link as MUILink } from '@mui/material';  // Rename MUI Link to avoid conflict
 
 export default async function TopMenu() {

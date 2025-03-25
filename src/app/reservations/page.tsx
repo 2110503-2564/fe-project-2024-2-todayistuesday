@@ -110,8 +110,7 @@ export default function Reservations() {
                 _id: createdBooking.data._id, // Use the ID from the API response
                 nameLastname: nameLastname,
                 tel: tel,
-                hotel: nameHotel || '',
-                hotelId: cid || '',
+                hotel: createdBooking.data.hotel || '',
                 checkIn: dayjs(checkIn).format("YYYY/MM/DD"),
                 checkOut: dayjs(checkOut).format("YYYY/MM/DD"),
                 numOfDays: numOfDays,

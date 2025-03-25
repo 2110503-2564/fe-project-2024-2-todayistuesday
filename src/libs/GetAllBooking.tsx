@@ -1,5 +1,5 @@
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 
 
 export default async function getAllBookings() {
@@ -8,7 +8,7 @@ export default async function getAllBookings() {
 
     // Make the POST request to the API
     try {
-        const response = await fetch("http://localhost:5000/api/v1/bookings",{
+        const response = await fetch(`${process.env.BACKEND_URL}/api/v1/bookings`,{
             method: "GET",
             headers: {
                 "Authorization": `Bearer ${session?.user.token}`, // ใส่ token ที่ได้

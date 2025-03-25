@@ -71,3 +71,22 @@ export interface Hotel {
     province : string
     tel : string
 }
+
+export interface TypeHotel {
+    _id : string
+    name : string
+    address : string
+    district : string
+    province : string
+    postalcode : string
+    tel : string
+    region : string
+    picture : string
+}
+
+export interface XXX {
+    success : boolean
+    count : number
+    data : TypeHotel[]
+}
+

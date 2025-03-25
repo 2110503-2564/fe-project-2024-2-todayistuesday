@@ -7,7 +7,7 @@ export const updateBooking = async (
   updatedBookingData: Partial<BookingItem>
 ) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/v1/bookings/${bookingId}`, {
+    const response = await fetch(`${process.env.BACKEND_URL}/api/v1/bookings/${bookingId}`, {
       method: 'PUT', // Use PUT or PATCH depending on your API
       headers: {
         'Content-Type': 'application/json',
