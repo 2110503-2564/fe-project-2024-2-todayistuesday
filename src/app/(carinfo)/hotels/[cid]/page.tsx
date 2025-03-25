@@ -1,10 +1,10 @@
 import Image from 'next/image';
-import getCar from '@/libs/getCar';
 import Link from 'next/link';
+import getHotel from '@/libs/getHotel';
 
 export default async function CarDetailPage( {params} : {params:{cid:string}} ) {
 
-    const carDetail = await getCar(params.cid);
+    const carDetail = await getHotel(params.cid);
 
     return (
         <main className="text-center p-5">
