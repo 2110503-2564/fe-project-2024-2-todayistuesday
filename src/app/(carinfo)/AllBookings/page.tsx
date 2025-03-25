@@ -56,8 +56,9 @@ export default function ReservationCart() {
     };
 
     const handleEditReservation = (bookItem: BookingItem) => {
+        const hotelData = JSON.stringify(bookItem.hotel);
         // Navigate to edit page with booking details
-        router.push(`/reservations/edit/${bookItem._id}?hotel=${encodeURIComponent(bookItem.hotel)}`);
+        router.push(`/reservations/edit?id=${bookItem._id}?hotel=${encodeURIComponent(hotelData)}`);
     };
 
     // Filter bookings to show only the current user's bookings
@@ -81,7 +82,7 @@ export default function ReservationCart() {
                         className="bg-slate-200 rounded px-5 mx-5 py-2 my-3"
                         key={bookItem._id}
                     >
-                        <div className="text-xl font-bold underline">{bookItem.hotel}</div>
+                        <div className="text-xl font-bold underline">{bookItem.hotel.name}</div>
                         <div className="text-sm">Name of the person booking: {bookItem.nameLastname}</div>
                         <div className="text-sm">Tel: {bookItem.tel}</div>
                         <div className="text-sm">Check-In: {bookItem.checkIn}</div>
@@ -112,127 +113,3 @@ export default function ReservationCart() {
     );
 }
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import getAllBookings from "@/libs/GetAllBooking";
-// import { BookingItem } from "../../../../interfaces";
-// import { eachItemsBooking } from "../../../../interfaces";
-// import ReservationCart from "@/components/ReservationCart";
-
-
-// export default async function GetBookingPage() {
-//     const Booking : BookingItem[] = await getAllBookings();
-//     console.log(Booking)
-    
-//     return(
-//         <div>
-//             {
-//                 Booking.map((eachBooking : BookingItem )=>(
-//                     <div className="bg-slate-200 rounded px-5 mx-5 py-2 my-3" key={eachBooking.hotelId}>
-//                         <div className="text-xl font-bold underline">{eachBooking.hotel.name}</div>
-//                         <div className="text-sm">Name of the person booking: {eachBooking.nameLastname}</div>
-//                         <div className="text-sm">Check-In: {eachBooking.checkIn}</div>
-//                         <div className="text-sm">Check-Out: {eachBooking.checkOut}</div>                
-//                         <div className="text-md">Duration: {eachBooking.numOfDays}</div>
-//                         {/* <div>
-//                             <button  className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2
-//                                 text-white shadow-sm" onClick={() => dispatch(removeReservation(eachBooking))}>
-//                                 Remove from Booking
-//                             </button>
-//                             <button  className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2
-//                                 text-white shadow-sm" onClick={() => dispatch(removeReservation(eachBooking))}>
-//                                 Edit from Booking
-//                             </button>
-
-//                         </div> */}
-//                     </div>
-//                 ))
-//             }
-//         </div>
-//     );
-    
-// }

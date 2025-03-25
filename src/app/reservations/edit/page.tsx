@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 import { updateBooking } from "@/libs/updateBooking";
 import { getBooking } from "@/libs/getBooking";
 import { BookingItem } from "../../../../interfaces";
-import { useAppSelector, AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import { updateBookingState } from "@/redux/features/cartSlice";
 
@@ -229,7 +228,14 @@ export default function EditBookingPage() {
                     <button
                         type="button"
                         className="w-full mt-6 rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2 text-white shadow-sm disabled:bg-gray-400"
-                        onClick={handleUpdateBooking}
+                        onClick={() => {
+                            handleUpdateBooking;
+                            if (session?.user.role === "admin") {
+                              router.push('/AllBookings');
+                            } else {
+                              router.push('/cart');
+                            }
+                          }}
                         disabled={bookingLoading || status !== "authenticated"}
                     >
                         {bookingLoading ? "Updating..." : "Update Reservation"}
@@ -237,8 +243,15 @@ export default function EditBookingPage() {
                     <button
                         type="button"
                         className="w-full mt-6 rounded-md bg-gray-300 hover:bg-gray-400 px-3 py-2 text-gray-700 shadow-sm"
-                        onClick={() => router.push('/cart')}
-                    >
+                        onClick={() => {
+                            if (session?.user.role === "admin") {
+                                router.push('/AllBookings');
+                              } else {
+                                router.push('/cart');
+                              }
+                        }
+
+                        }>
                         Cancel
                     </button>
                 </div>
