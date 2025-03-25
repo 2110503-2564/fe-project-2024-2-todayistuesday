@@ -25,13 +25,12 @@ export default async function TopMenu() {
                 (<TopMenuItem title='Check Bookings' pageRef='/AllBookings' />) :
                 (<TopMenuItem title='Select Hotels' pageRef='/hotels' />)
             }
-            <TopMenuItem title='About' pageRef='/about' />
             <div className='flex flex-row absolute right-0 h-full'>
 
                 {
                     session?.user.role==="admin"?
                     ("") :
-                    (<TopMenuItem title='Select Hotels' pageRef='/hotels' />)
+                    (<TopMenuItem title='cart' pageRef='/cart' />)
 
                 }
 

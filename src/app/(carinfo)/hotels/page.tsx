@@ -8,8 +8,8 @@ export default function Car() {
     const cars = getCars()
     
     return (
-        <main className="text-center p-5">
-            <h1 className="text-xl font-medium">Select Your Travel Partner</h1>
+        <main className="text-center ">
+            <h1 className="text-xl font-medium">Select Your Hotels</h1>
             <Suspense fallback={ <p>Loading ... <LinearProgress/></p> }>
                 <CarCatalog carJson={cars}/>
             </Suspense>

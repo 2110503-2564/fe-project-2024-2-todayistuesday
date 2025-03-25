@@ -26,14 +26,14 @@ export default function Banner() {
             />
             <div className="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center z-20">
                 <h1 className="text-5xl font-medium text-white drop-shadow-lg">
-                    Your Travel Partner
+                    HotelHub
                 </h1>
                 <h3 className="text-2xl font-serif text-white mt-4 drop-shadow-md">
-                    Explore Your World with Us
+                Luxury, comfort, and unforgettable moments—only one booking away
                 </h3>
             </div>
             {session && (
-                <div className="absolute top-5 right-10 font-semibold text-cyan-800 text-xl z-30">
+                <div className="absolute top-5 right-10 font-semibold text-white text-xl z-30 ">
                     Hello {session.user?.name}
                 </div>
             )}

@@ -14,7 +14,6 @@ export default async function ProductCard( { carName, imgSrc, onCompare} : {carN
             <div className='w-full h-[15%] p-[10px]'>
                 {carName}
             </div>
-            
         </InteractiveCard>
     )
 }

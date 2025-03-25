@@ -22,7 +22,7 @@ export default async function CarDetailPage( {params} : {params:{cid:string}} ) 
                 <div className="text-md mx-5">Postalcode : { carDetail.data.postalcode }</div>
                 <div className="text-md mx-5">Tel : { carDetail.data.tel }</div>
                 <div className="text-md mx-5">Region: { carDetail.data.region }</div>
-                <div className="text-md mx-5">Daily Rental Rate : { carDetail.data.dayRate } (insurance included)</div>
+                
 
                 <Link href={`/reservations?id=${params.cid}&name=${carDetail.data.name}`}>
                 <button className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2

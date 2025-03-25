@@ -8,11 +8,10 @@ export default async function CarCatalog({carJson} : {carJson:Object}) {
     const carJsonReady = await carJson;
 
     return (
+        
         <>
-        Explore {carJsonReady.count} models in our catalog
-        <div style={{margin:"20px" , display:"flex", 
-            flexDirection:"row", flexWrap : "wrap" ,
-            justifyContent:"space-around", alignContent:"space-around",padding:"10px"}}>
+        Explore {carJsonReady.count} hotel in our catalog
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-4">
                 {
                     carJsonReady.data.map( (carItem:Object)=>(
                         <div>
