@@ -96,14 +96,24 @@ export default function ReservationCart() {
                             <button 
                                 className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2
                                 text-white shadow-sm" 
-                                onClick={() => handleRemoveReservation(bookItem)}
+                                onClick={() =>{
+                                    handleRemoveReservation(bookItem)
+                                } 
+                                    
+                                }
                             >
                                 Remove from Cart
                             </button>
                             <button 
                                 className="block rounded-md bg-green-600 hover:bg-green-700 px-3 py-2
                                 text-white shadow-sm" 
-                                onClick={() => handleEditReservation(bookItem)}
+                                onClick={() => {
+                                    handleEditReservation(bookItem)
+                                    
+                                    
+                                    }
+
+                                }
                             >
                                 Edit Reservation
                             </button>

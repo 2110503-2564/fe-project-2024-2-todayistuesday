@@ -126,7 +126,11 @@ export default function EditBookingPage() {
 
                 // Show success message and navigate
                 alert("Booking updated successfully!");
-                router.push('/cart');
+                if (session?.user.role === "admin") {
+                    router.push('/AllBookings');
+                  } else {
+                    router.push('/cart');
+                  }
             }
         } catch (error) {
             console.error("Booking Update Error:", error);
@@ -231,11 +235,7 @@ export default function EditBookingPage() {
                         className="w-full mt-6 rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2 text-white shadow-sm disabled:bg-gray-400"
                         onClick={(e) => {
                             handleUpdateBooking(e);
-                             if (session?.user.role === "admin") {
-                               router.push('/AllBookings');
-                             } else {
-                              router.push('/cart');
-                             }
+                             
                           }
                     }
                         disabled={bookingLoading || status !== "authenticated"}

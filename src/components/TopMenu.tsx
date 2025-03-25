@@ -12,7 +12,7 @@ export default async function TopMenu() {
     return (
         <div className={styles.menucontainer}>
             <Link href="/">
-                <Image src="/img/logo.png" 
+                <Image src="/img/Hotelcard.png" 
                     className={styles.logoimg} 
                     alt='logo'
                     width={0} 
@@ -27,7 +27,14 @@ export default async function TopMenu() {
             }
             <TopMenuItem title='About' pageRef='/about' />
             <div className='flex flex-row absolute right-0 h-full'>
-                <TopMenuItem title='Cart' pageRef='/cart' />
+
+                {
+                    session?.user.role==="admin"?
+                    ("") :
+                    (<TopMenuItem title='Select Hotels' pageRef='/hotels' />)
+
+                }
+
                 {
                     session? '': <MUILink href="/api/auth/register">
                         <div className='flex items-center h-full px-2 text-cyan-600 text-sm'>Register</div>
