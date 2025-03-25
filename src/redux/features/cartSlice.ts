@@ -1,5 +1,6 @@
 import { createSlice,PayloadAction } from "@reduxjs/toolkit";
 import { BookingItem } from "../../../interfaces";
+import { eachBookingItem } from "../../../interfaces";
 
 type CartState = {
     carItems: BookingItem[]
@@ -22,11 +23,15 @@ export const cartSlice = createSlice({
             })
             state.carItems = remainItems
         },
-        updateBookingState: (state, action: PayloadAction<BookingItem>) => {
+        updateBookingState: (state, action: PayloadAction<eachBookingItem>) => {
             const index = state.carItems.findIndex(b => b._id === action.payload._id 
             );
             if (index !== -1) {
-                state.carItems[index] = action.payload;
+                state.carItems[index].nameLastname = action.payload.nameLastname;
+                state.carItems[index].checkIn = action.payload.checkIn;
+                state.carItems[index].checkOut = action.payload.checkOut;
+                state.carItems[index].numOfDays = action.payload.numOfDays;
+                state.carItems[index].tel = action.payload.tel;
             }
         },
     }

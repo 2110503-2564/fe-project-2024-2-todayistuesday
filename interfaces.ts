@@ -25,6 +25,15 @@ export interface BookingItem {
     user : string
 }
 
+export interface eachBookingItem {
+        _id : string
+        nameLastname: string,
+        tel: string,
+        checkIn: string,
+        checkOut: string,
+        numOfDays: number
+}
+
 
 
 

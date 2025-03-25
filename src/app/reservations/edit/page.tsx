@@ -7,10 +7,12 @@ import { useSession } from "next-auth/react";
 import { updateBooking } from "@/libs/updateBooking";
 import { getBooking } from "@/libs/getBooking";
 import { BookingItem } from "../../../../interfaces";
-
+import { useAppSelector, AppDispatch } from "@/redux/store";
+import { useDispatch } from "react-redux";
+import { updateBookingState } from "@/redux/features/cartSlice";
 
 export default function EditBookingPage() {
-    
+    const dispatch = useDispatch() ;
     const router = useRouter();
     const searchParams = useSearchParams();
     const bookingId = searchParams.get('id');
@@ -38,14 +40,13 @@ export default function EditBookingPage() {
             if (session?.user?.token && bookingId) {
                 try {
                     const data = await getBooking(bookingId, session.user.token);
-                    console.log(data)
-                    setBooking(data);
                     
-                    // Pre-fill form fields
-                    setCheckIn(dayjs(data.checkIn));
-                    setCheckOut(dayjs(data.checkOut));
-                    setNameLastname(data.nameLastname);
-                    setTel(data.tel);
+                    setBooking(data.data);
+                    
+                    setCheckIn(dayjs(data.data.checkIn));
+                    setCheckOut(dayjs(data.data.checkOut));
+                    setNameLastname(data.data.nameLastname);
+                    setTel(data.data.tel);
                 } catch (error) {
                     console.error('Error fetching booking:', error);
                     alert("Failed to fetch booking details");
@@ -102,13 +103,9 @@ export default function EditBookingPage() {
         // Prepare updated booking data
         const numOfDays = dayjs(checkOut).diff(dayjs(checkIn), "day");
         setBookingLoading(true);
-        console.log(nameLastname);
-        console.log();
-        console.log();
-        console.log();
-        console.log();
     
         const updatedBookingData = {
+            _id : booking?._id || ""  ,
             nameLastname: nameLastname,
             tel: tel,
             checkIn: dayjs(checkIn).format("YYYY-MM-DD"),
@@ -116,7 +113,7 @@ export default function EditBookingPage() {
             numOfDays: numOfDays
         };
         
-    
+        dispatch(updateBookingState(updatedBookingData)) ;
         try {
             // Update booking
             if (bookingId) {
