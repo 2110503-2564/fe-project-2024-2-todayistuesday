@@ -105,12 +105,13 @@ export default function EditBookingPage() {
     
         const updatedBookingData = {
             _id : booking?._id || ""  ,
-            nameLastname: nameLastname,
-            tel: tel,
+            nameLastname: nameLastname ,
+            tel: tel ,
             checkIn: dayjs(checkIn).format("YYYY-MM-DD"),
             checkOut: dayjs(checkOut).format("YYYY-MM-DD"),
             numOfDays: numOfDays
         };
+        
         
         dispatch(updateBookingState(updatedBookingData)) ;
         try {
@@ -228,14 +229,15 @@ export default function EditBookingPage() {
                     <button
                         type="button"
                         className="w-full mt-6 rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-2 text-white shadow-sm disabled:bg-gray-400"
-                        onClick={() => {
-                            handleUpdateBooking;
-                            if (session?.user.role === "admin") {
-                              router.push('/AllBookings');
-                            } else {
+                        onClick={(e) => {
+                            handleUpdateBooking(e);
+                             if (session?.user.role === "admin") {
+                               router.push('/AllBookings');
+                             } else {
                               router.push('/cart');
-                            }
-                          }}
+                             }
+                          }
+                    }
                         disabled={bookingLoading || status !== "authenticated"}
                     >
                         {bookingLoading ? "Updating..." : "Update Reservation"}
@@ -244,13 +246,12 @@ export default function EditBookingPage() {
                         type="button"
                         className="w-full mt-6 rounded-md bg-gray-300 hover:bg-gray-400 px-3 py-2 text-gray-700 shadow-sm"
                         onClick={() => {
-                            if (session?.user.role === "admin") {
-                                router.push('/AllBookings');
-                              } else {
-                                router.push('/cart');
-                              }
+                             if (session?.user.role === "admin") {
+                                 router.push('/AllBookings');
+                               } else {
+                                 router.push('/cart');
+                               }
                         }
-
                         }>
                         Cancel
                     </button>

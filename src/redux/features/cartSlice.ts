@@ -24,8 +24,7 @@ export const cartSlice = createSlice({
             state.carItems = remainItems
         },
         updateBookingState: (state, action: PayloadAction<eachBookingItem>) => {
-            const index = state.carItems.findIndex(b => b._id === action.payload._id 
-            );
+            const index = state.carItems.findIndex(b => b._id === action.payload._id );
             if (index !== -1) {
                 state.carItems[index].nameLastname = action.payload.nameLastname;
                 state.carItems[index].checkIn = action.payload.checkIn;
